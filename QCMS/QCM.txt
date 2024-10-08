@@ -1,0 +1,16 @@
+Q|Quelle est la couleur du cheval blanc de Napoléon ?
+A|Brun|V
+A|Bleu|X
+A|Violet|X
+
+Q|Combien de jours dans un mois ?
+A|28|V
+A|29|V
+A|30|V
+A|31|V
+A|25|X
+
+Q|Quel est l'équivalent américain de l'ESA (European Space Agency) ?
+A|NASA|V
+A|NSA|X|La NSA est la National Security Agency
+A|FBI|X

@@ -1,0 +1,29 @@
+Q|L'entomologie est la science qui étudie:
+A|Les insectes|V
+A|Le comportement des être humains|X
+A|L'origine et l'histoire des termes techniques et scientifiques|X
+A|La formation des roches|X
+
+Q|L'Erythrée est un pays situé sur le continent:
+A|Africain|V
+A|Asiatique|X
+A|Européen|X
+A|Australien|X
+
+Q|Parmi les disciplines suivantes, lesquelles sont récompensées par des Prix Nobels ?
+A|Physique et Chimie|V
+A|Physiologie et Médecine|V
+A|Littérature, Paix et Economie|V
+A|Mathématique|X|
+A|Toutes les réponses précédentes|X
+
+Q|Galilée est un savant Italien qui a:
+A|Développé le téléscope|V
+A|Découvert quatre satellites de Jupiter|V
+A|Découvert que le mouvement d'un pendule produit une mesure de temps régulière|V
+A|Toutes les réponses précédentes|V
+
+Q|L'exposition aux rayons du soleil est bon pour la santé parce que:
+A|Les rayons ultraviolets activent la transformation de cholestérol en vitamine D|V
+A|Les cellules pigmentaires de la peau sont stimulées et font bronzer la peau|X
+A|La lumière infrarouge tue les bactéries à la surface de la peau|X

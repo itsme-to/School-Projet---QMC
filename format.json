@@ -1,0 +1,26 @@
+[
+  [
+    "Quelle est la couleur du cheval blanc de Napoléon ?",
+    [
+      [ "Brun", true, "" ],
+      [ "Bleu", false, "" ],
+      [ "Violet", false, "" ]
+    ]
+  ],[
+    "Combien de jours dans un mois ?",
+    [
+      [ "28", true, "" ],
+      [ "29", true, "" ],
+      [ "30", true, "" ],
+      [ "31", true, "" ],
+      [ "25", false, "" ]
+    ]
+  ],[
+    "Quel est l'équivalent américain de l'ESA (European Space Agency) ?",
+    [
+      [ "NASA", true, "" ],
+      [ "NSA", false, "La NSA est la National Security Agency" ],
+      [ "FBI", false, ""]
+    ]
+  ]
+]
