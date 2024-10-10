@@ -9,12 +9,11 @@ def play(stdscr):
     """
 
     start_game(stdscr)
-    qmc = select_qmc(stdscr)
+    mcq = select_mcq(stdscr)
     weighting = select_weighting(stdscr)
-
-    random.shuffle(qmc)
-
-    stdscr.addstr('Vous avez choisi la réponse : ' + str(weighting))
+    random.shuffle(mcq)
+    correct_anwser = start_mcq(mcq, stdscr)
+    
     stdscr.getch()
 
 def start_game(stdscr):
@@ -35,7 +34,7 @@ def start_game(stdscr):
     while stdscr.getch() != ord('\n'):
         pass
 
-def select_qmc(stdscr):
+def select_mcq(stdscr):
     """
     Permet de sélectionner un fichier de questions.
     """
@@ -52,6 +51,37 @@ def select_weighting(stdscr):
     """
 
     return select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', '50%', 'Les 3 pondérations à la fois'], stdscr)
+
+def start_mcq(questions, stdscr):
+    """
+    Permet de lancer une série de questions.
+    """
+    correct_answer = 0
+
+    for question in questions:
+        random.shuffle(question[1])
+
+        answers = []
+        for answer in question[1]:
+            answers.append(answer[0])
+
+        answer = select(f"{question[0]} [{str(questions.index(question) + 1)}/{str(len(questions))}]", answers, stdscr)
+
+        selected = question[1][answer]
+        correct = selected[1]
+        if correct:
+            stdscr.addstr('Bonne réponse !')
+            correct_answer += 1
+        else:
+            stdscr.addstr('Mauvaise réponse... ' + selected[2])
+        
+        stdscr.getch()
+    
+    stdscr.erase()
+    stdscr.addstr('Vous avez obtenu ' + str(correct_answer) + ' bonnes réponses sur ' + str(len(questions)) + ' questions.')
+
+    return correct_answer
+
 
 
 def select(question, answers, stdscr):
