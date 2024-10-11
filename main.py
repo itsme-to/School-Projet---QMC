@@ -13,7 +13,7 @@ def play(stdscr):
     weighting = select_weighting(stdscr)
     random.shuffle(mcq)
     correct_anwser = start_mcq(mcq, stdscr)
-    
+
     stdscr.getch()
 
 def start_game(stdscr):
@@ -39,9 +39,9 @@ def select_mcq(stdscr):
     Permet de sélectionner un fichier de questions.
     """
 
-    question_files = os.listdir('QCMS/')
+    question_files = os.listdir('QCM/')
     answer = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Quel fichier de questions voulez-vous utiliser ? [1/2]", question_files, stdscr)
-    file = 'QCMS/' + question_files[answer]
+    file = 'QCM/' + question_files[answer]
 
     return qcm.build_questionnaire(file)
 
@@ -81,8 +81,6 @@ def start_mcq(questions, stdscr):
     stdscr.addstr('Vous avez obtenu ' + str(correct_answer) + ' bonnes réponses sur ' + str(len(questions)) + ' questions.')
 
     return correct_answer
-
-
 
 def select(question, answers, stdscr):
     """
