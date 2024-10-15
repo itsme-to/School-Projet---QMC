@@ -6,19 +6,26 @@ import random
 def play(stdscr):
     """
     Fonction principale du jeu.
+    :pre: A besoin de l'interface de la console.
     """
 
     start_game(stdscr)
     mcq = select_mcq(stdscr)
+    stdscr.erase()
     weighting = select_weighting(stdscr)
+    stdscr.erase()
     random.shuffle(mcq)
     correct_anwser = start_mcq(mcq, stdscr)
+
+    questions_total = len(mcq)
+    
 
     stdscr.getch()
 
 def start_game(stdscr):
     """
     Affiche l'écran de démarrage du jeu.
+    :pre: A besoin de l'interface de la console.
     """
 
     stdscr.addstr('\n\n')
@@ -37,6 +44,8 @@ def start_game(stdscr):
 def select_mcq(stdscr):
     """
     Permet de sélectionner un fichier de questions.
+    :pre: A besoin de l'interface de la console.
+    :post: Retourne la liste des questions.
     """
 
     question_files = os.listdir('QCM/')
@@ -48,6 +57,8 @@ def select_mcq(stdscr):
 def select_weighting(stdscr):
     """
     Permet de sélectionner un mode de pondération.
+    :pre: A besoin de l'interface de la console.
+    :post: Retourne le mode de pondération sélectionné.
     """
 
     return select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', '50%', 'Les 3 pondérations à la fois'], stdscr)
@@ -55,29 +66,32 @@ def select_weighting(stdscr):
 def start_mcq(questions, stdscr):
     """
     Permet de lancer une série de questions.
+    :pre: A besoin de la liste des questions et de l'interface
+    :post: Retourne le nombre de bonnes réponses.
     """
     correct_answer = 0
 
     for question in questions:
         random.shuffle(question[1])
+        index = questions.index(question)
 
         answers = []
         for answer in question[1]:
             answers.append(answer[0])
 
-        answer = select(f"{question[0]} [{str(questions.index(question) + 1)}/{str(len(questions))}]", answers, stdscr)
+        answer = select(f"{create_progress_bar(index + 1, len(questions), 60)} [{str(index + 1)}/{str(len(questions))}]\n\n  {question[0]}", answers, stdscr)
 
         selected = question[1][answer]
         correct = selected[1]
         if correct:
-            stdscr.addstr('Bonne réponse !')
+            stdscr.addstr('  Bonne réponse !')
             correct_answer += 1
         else:
-            stdscr.addstr('Mauvaise réponse... ' + selected[2])
+            stdscr.addstr('  Mauvaise réponse... ' + selected[2])
         
         stdscr.getch()
+        stdscr.erase()
     
-    stdscr.erase()
     stdscr.addstr('Vous avez obtenu ' + str(correct_answer) + ' bonnes réponses sur ' + str(len(questions)) + ' questions.')
 
     return correct_answer
@@ -85,7 +99,7 @@ def start_mcq(questions, stdscr):
 def select(question, answers, stdscr):
     """
     Permet de sélectionner une réponse parmi plusieurs.
-    :pre: A besoin du titre de la question et des réponses possibles.
+    :pre: A besoin du titre de la question, des réponses possibles et de l'interface
     :post: Retourne la réponse sélectionnée.
     """
 
@@ -122,11 +136,25 @@ def select(question, answers, stdscr):
             selected += 1
         elif key == curses.KEY_UP and selected > 0:
             selected -= 1
-    
-    stdscr.erase()
     return selected
 
-curses.wrapper(play)
-    
-  
 
+
+def create_progress_bar(progress, total, length):
+    """
+    Crée une barre de progression.
+    :pre: A besoin de la progression actuelle, du total et de la longueur de la barre.
+    :post: Retourne la barre de progression.
+    """
+
+    bar = '['
+    for i in range(length):
+        if i < progress * length // total:
+            bar += '#'
+        else:
+            bar += '-'
+    bar += ']'
+
+    return bar
+
+curses.wrapper(play)
