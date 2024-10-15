@@ -7,6 +7,7 @@ def play(stdscr):
     """
     Fonction principale du jeu.
     :pre: A besoin de l'interface de la console.
+    :post: Joue une partie de QCM.
     """
 
     start_game(stdscr)
@@ -14,12 +15,24 @@ def play(stdscr):
     stdscr.erase()
     weighting = select_weighting(stdscr)
     stdscr.erase()
+
+    robot = False
+    if weighting >= 2:
+        robot = detect_robot(stdscr)
+        stdscr.erase()
+
     random.shuffle(mcq)
     correct_anwser = start_mcq(mcq, stdscr)
-
     questions_total = len(mcq)
-    
 
+    weighting_0 = correct_anwser
+    weighting_1 = correct_anwser - (questions_total - correct_anwser)
+    weighting_2 = score_robot(correct_anwser, mcq)
+    if robot:
+        weighting_2 = 0
+    
+    show_score(weighting, weighting_0, weighting_1, weighting_2, questions_total, stdscr)
+    
     stdscr.getch()
 
 def start_game(stdscr):
@@ -61,7 +74,27 @@ def select_weighting(stdscr):
     :post: Retourne le mode de pondération sélectionné.
     """
 
-    return select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', '50%', 'Les 3 pondérations à la fois'], stdscr)
+    return select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', 'Détection Robot', 'Les 3 pondérations à la fois'], stdscr)
+
+def detect_robot(stdscr):
+    """
+    Permet de détecter si l'utilisateur est un robot.
+    :pre: A besoin de l'interface de la console.
+    :post: Retourne True si l'utilisateur est un robot, False sinon.
+    """
+
+    # On mélange les réponses pour que l'utilisateur ne puisse pas les deviner, mais on garde la première réponse à 'Oui'
+    answers = ['Oui', 'Oui', 'Oui', 'Oui']
+    answers_rest = ['Oui', 'Oui', 'Oui' ,'Non']
+    random.shuffle(answers_rest)
+    answers += answers_rest
+
+    selected = select("Êtes-vous un robot ?", answers, stdscr)
+
+    if answers[selected] == 'Oui':
+        return True
+
+    return False
 
 def start_mcq(questions, stdscr):
     """
@@ -84,17 +117,39 @@ def start_mcq(questions, stdscr):
         selected = question[1][answer]
         correct = selected[1]
         if correct:
-            stdscr.addstr('  Bonne réponse !')
+            stdscr.addstr('  Bonne réponse !', curses.A_BOLD)
             correct_answer += 1
         else:
-            stdscr.addstr('  Mauvaise réponse... ' + selected[2])
+            stdscr.addstr('  Mauvaise réponse... ' + selected[2], curses.A_BOLD)
         
         stdscr.getch()
         stdscr.erase()
-    
-    stdscr.addstr('Vous avez obtenu ' + str(correct_answer) + ' bonnes réponses sur ' + str(len(questions)) + ' questions.')
 
     return correct_answer
+
+def show_score(weighting, weighting_0, weighting_1, weighting_2, lenght, stdscr):
+    """
+    Affiche le score final.
+    :pre: A besoin du mode de pondération,du nombre de bonnes réponses pour chaque pondération et de l'interface.
+    :post: Affiche le score final. 
+    """
+
+    stdscr.addstr('\n\n')
+    stdscr.addstr('  Score final\n\n', curses.A_BOLD)
+
+    if weighting == 0:
+        stdscr.addstr('  Sans pénalité [' + str(weighting_0) + '/' + str(lenght) + ']\n')
+    elif weighting == 1:
+        stdscr.addstr('  - Pénalité en cas de mauvaises réponses [' + str(weighting_1) + '/' + str(lenght) + ']\n')
+    elif weighting == 2:
+        stdscr.addstr('  - Détection de robot [' + str(weighting_2) + '/' + str(lenght) + ']\n')
+    else:
+        stdscr.addstr('  Les 3 pondérations à la fois\n')
+        stdscr.addstr('  - Sans pénalité : [' + str(weighting_0) + '/' + str(lenght) + ']\n')
+        stdscr.addstr('  - Pénalité en cas de mauvaises réponses : [' + str(weighting_1) + '/' + str(lenght) + ']\n')
+        stdscr.addstr('  - Détection de robot : [' + str(weighting_2) + '/' + str(lenght) + ']\n')
+    
+    stdscr.addstr('\n\n')
 
 def select(question, answers, stdscr):
     """
@@ -138,7 +193,25 @@ def select(question, answers, stdscr):
             selected -= 1
     return selected
 
+def score_robot(correct_answers, mcq):
+    """
+    Calcule le score d'un robot.
+    :pre: A besoin de la liste des questions.
+    :post: Retourne le score du robot.
+    """
+    true_answers = 0
+    false_answers = 0
 
+    for question in mcq:
+        for answer in question[1]:
+            if answer[1]:
+                true_answers += 1
+            else:
+                false_answers += 1
+
+    not_correct_point = (false_answers - (true_answers + false_answers) / 2) / false_answers
+    score = correct_answers + not_correct_point*(len(mcq)-correct_answers) - len(mcq) / 2
+    return score
 
 def create_progress_bar(progress, total, length):
     """
