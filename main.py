@@ -10,29 +10,65 @@ def play(stdscr):
     :post: Joue une partie de QCM.
     """
 
+    # On cache le curseur
+    curses.curs_set(0)
+
+    # On récupère la taille de la console
+    height, width = stdscr.getmaxyx()
+
+    # On vérifie que la console est assez grande
+    if height < 30 or width < 80:
+        stdscr.addstr('La console est trop petite pour afficher le jeu correctement. Veuillez l\'agrandir.')
+        stdscr.getch()
+        return
+    
+    # On commence le jeu
     start_game(stdscr)
+
+    # On récupère les choix de questions et de pondération
     mcq = select_mcq(stdscr)
     stdscr.erase()
-    weighting = select_weighting(stdscr)
+    weighting = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', 'Détection Robot', 'Les 3 pondérations à la fois'], stdscr)
     stdscr.erase()
 
+    # On vérifie si l'utilisateur est un robot si la pondération est détection de robot ou les 3 pondérations
     robot = False
     if weighting >= 2:
         robot = detect_robot(stdscr)
         stdscr.erase()
 
+    # On mélange les questions
     random.shuffle(mcq)
+
+    # On lance le QCM, on récupère le nombre de bonnes réponses
     correct_anwser = start_mcq(mcq, stdscr)
     questions_total = len(mcq)
 
+    # On calcule les scores en fonction de la pondération
+
+    # Sans pénalité
     weighting_0 = correct_anwser
+    
+    # Pénalité en cas de mauvaises réponses
     weighting_1 = correct_anwser - (questions_total - correct_anwser)
+
+    # Détection de robot
     weighting_2 = score_robot(correct_anwser, mcq)
     if robot:
         weighting_2 = 0
     
+    # On affiche le score final
     show_score(weighting, weighting_0, weighting_1, weighting_2, questions_total, stdscr)
+
+    # On demande si l'utilisateur veut rejouer
+    play_again = select("Voulez-vous rejouer ?", ['Oui', 'Non'], stdscr)
+    if play_again == 0:
+        stdscr.erase()
+        play(stdscr)
+    else:
+        stdscr.addstr('\n\n  Merci d\'avoir joué !\n\n')
     
+    # On attend que l'utilisateur appuie sur une touche pour quitter
     stdscr.getch()
 
 def start_game(stdscr):
@@ -41,6 +77,7 @@ def start_game(stdscr):
     :pre: A besoin de l'interface de la console.
     """
 
+    # On affiche le titre du jeu
     stdscr.addstr('\n\n')
     stdscr.addstr('   ____ ____ ____ ____ _________ ____ ____ ____ ____ ____ ____ _________ ____ \n')
     stdscr.addstr('  ||Q |||U |||I |||Z |||       |||P |||R |||O |||J |||E |||T |||       |||2 ||\n')
@@ -51,8 +88,12 @@ def start_game(stdscr):
     stdscr.addstr('\n\n')
     stdscr.addstr('  Appuyer sur Entrer pour commencer')
 
+    # On attend que l'utilisateur appuie sur Entrer pour continuer
     while stdscr.getch() != ord('\n'):
         pass
+    
+    # On affiche le tutoriel
+    select(f"Tutoriel\n\n  Vous allez devoir répondre à une série de questions à choix multiples.\n  Pour répondre, utilisez les flèches directionnelles pour sélectionner la réponse souhaitée\n  et appuyez sur la touche Entrer pour valider.", ['Continuer', 'Toujours continuer'], stdscr)
 
 def select_mcq(stdscr):
     """
@@ -61,20 +102,15 @@ def select_mcq(stdscr):
     :post: Retourne la liste des questions.
     """
 
+    # On récupère les fichiers de questions
     question_files = os.listdir('QCM/')
+
+    # On affiche les fichiers de questions et on demande à l'utilisateur d'en choisir un
     answer = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Quel fichier de questions voulez-vous utiliser ? [1/2]", question_files, stdscr)
     file = 'QCM/' + question_files[answer]
 
+    # On charge les questions du fichier et on les retourne
     return qcm.build_questionnaire(file)
-
-def select_weighting(stdscr):
-    """
-    Permet de sélectionner un mode de pondération.
-    :pre: A besoin de l'interface de la console.
-    :post: Retourne le mode de pondération sélectionné.
-    """
-
-    return select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', 'Détection Robot', 'Les 3 pondérations à la fois'], stdscr)
 
 def detect_robot(stdscr):
     """
@@ -89,8 +125,10 @@ def detect_robot(stdscr):
     random.shuffle(answers_rest)
     answers += answers_rest
 
+    # On affiche la question et on demande à l'utilisateur de répondre
     selected = select("Êtes-vous un robot ?", answers, stdscr)
 
+    # On retourne la réponse
     if answers[selected] == 'Oui':
         return True
 
@@ -102,18 +140,25 @@ def start_mcq(questions, stdscr):
     :pre: A besoin de la liste des questions et de l'interface
     :post: Retourne le nombre de bonnes réponses.
     """
+    
+    # Calcul du nombre de bonnes réponses
     correct_answer = 0
 
     for question in questions:
+        # On mélange les réponses
         random.shuffle(question[1])
+
         index = questions.index(question)
 
+        # On crée une liste des réponses possibles
         answers = []
         for answer in question[1]:
             answers.append(answer[0])
 
+        # On demande à l'utilisateur de sélectionner une réponse
         answer = select(f"{create_progress_bar(index + 1, len(questions), 60)} [{str(index + 1)}/{str(len(questions))}]\n\n  {question[0]}", answers, stdscr)
 
+        # On récupère la réponse sélectionnée et on vérifie si elle est correcte
         selected = question[1][answer]
         correct = selected[1]
         if correct:
@@ -122,7 +167,10 @@ def start_mcq(questions, stdscr):
         else:
             stdscr.addstr('  Mauvaise réponse... ' + selected[2], curses.A_BOLD)
         
+        # On attend que l'utilisateur appuie sur une touche pour continuer
         stdscr.getch()
+
+        # On efface l'écran
         stdscr.erase()
 
     return correct_answer
@@ -133,22 +181,17 @@ def show_score(weighting, weighting_0, weighting_1, weighting_2, lenght, stdscr)
     :pre: A besoin du mode de pondération,du nombre de bonnes réponses pour chaque pondération et de l'interface.
     :post: Affiche le score final. 
     """
-
+    # On affiche le score final
     stdscr.addstr('\n\n')
     stdscr.addstr('  Score final\n\n', curses.A_BOLD)
 
-    if weighting == 0:
-        stdscr.addstr('  Sans pénalité [' + str(weighting_0) + '/' + str(lenght) + ']\n')
-    elif weighting == 1:
+    if weighting == 0 or weighting == 3:
+        stdscr.addstr('  - Sans pénalité [' + str(weighting_0) + '/' + str(lenght) + ']\n')
+    if weighting == 1 or weighting == 3:
         stdscr.addstr('  - Pénalité en cas de mauvaises réponses [' + str(weighting_1) + '/' + str(lenght) + ']\n')
-    elif weighting == 2:
+    if weighting == 2 or weighting == 3:
         stdscr.addstr('  - Détection de robot [' + str(weighting_2) + '/' + str(lenght) + ']\n')
-    else:
-        stdscr.addstr('  Les 3 pondérations à la fois\n')
-        stdscr.addstr('  - Sans pénalité : [' + str(weighting_0) + '/' + str(lenght) + ']\n')
-        stdscr.addstr('  - Pénalité en cas de mauvaises réponses : [' + str(weighting_1) + '/' + str(lenght) + ']\n')
-        stdscr.addstr('  - Détection de robot : [' + str(weighting_2) + '/' + str(lenght) + ']\n')
-    
+
     stdscr.addstr('\n\n')
 
 def select(question, answers, stdscr):
@@ -158,6 +201,7 @@ def select(question, answers, stdscr):
     :post: Retourne la réponse sélectionnée.
     """
 
+    # On crée les styles pour les réponses, sélectionnée ou non
     style = []
     curses.init_pair(1, curses.COLOR_WHITE, curses.COLOR_BLACK)
     style.append(curses.color_pair(1))
@@ -165,16 +209,24 @@ def select(question, answers, stdscr):
     curses.init_pair(2, curses.COLOR_BLACK, curses.COLOR_WHITE)
     style.append(curses.color_pair(2))
 
+    # Donne la question sélectionnée
     selected = 0
+
+    # Donne la touche appuyée
     key = None
 
+    # Tant que l'utilisateur n'a pas appuyé sur Entrer
     while key != ord('\n'):
+
+        # On efface l'écran
         stdscr.erase()
 
+        # On affiche la question
         stdscr.addstr('\n\n')
         stdscr.addstr("  " + question, curses.A_BOLD)
         stdscr.addstr('\n\n')
         
+        # On affiche les réponses, en mettant en surbrillance celle sélectionnée
         for i in range(len(answers)):
             if i == selected:
                 select_style = style[1]
@@ -186,11 +238,16 @@ def select(question, answers, stdscr):
         
         stdscr.addstr('\n\n')
 
+        # On récupère la touche appuyée
         key = stdscr.getch()
+
+        # On change la réponse sélectionnée en fonction de la touche appuyée, en vérifiant qu'elle est dans les limites
         if key == curses.KEY_DOWN and selected < len(answers) - 1:
             selected += 1
         elif key == curses.KEY_UP and selected > 0:
             selected -= 1
+
+    # On retourne la réponse sélectionnée
     return selected
 
 def score_robot(correct_answers, mcq):
@@ -199,17 +256,26 @@ def score_robot(correct_answers, mcq):
     :pre: A besoin de la liste des questions.
     :post: Retourne le score du robot.
     """
+
+    # On compte le nombre de bonnes et de mauvaises réponses
     true_answers = 0
     false_answers = 0
 
+    # On parcourt les questions et les réponses
     for question in mcq:
         for answer in question[1]:
+            # On vérifie si la réponse est correcte ou non
             if answer[1]:
                 true_answers += 1
             else:
                 false_answers += 1
 
+    # On calcule le score du robot, en prenant en compte le nombre de bonnes et de mauvaises réponses
+    # On ajoute un point pour chaque bonne réponse
+    # La pénalité est calculée en fonction de la différence entre les bonnes et les mauvaises réponses
     not_correct_point = (false_answers - (true_answers + false_answers) / 2) / false_answers
+
+    # On retourne le score, essayant de se rapprocher le plus possible de 0
     score = correct_answers + not_correct_point*(len(mcq)-correct_answers) - len(mcq) / 2
     return score
 
@@ -222,6 +288,7 @@ def create_progress_bar(progress, total, length):
 
     bar = '['
     for i in range(length):
+        # On ajoute un # si on est avant la progression actuelle, sinon un -
         if i < progress * length // total:
             bar += '#'
         else:
