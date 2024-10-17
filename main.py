@@ -138,9 +138,10 @@ def start_mcq(questions, interface):
     :post: Retourne le nombre de bonnes réponses.
     """
     
-    # Calcul du nombre de bonnes réponses
+    # Compteur de bonnes réponses
     correct_answer = 0
 
+    # Récupération de l'index et de la question pour chaque question
     for index, question in enumerate(questions):
         # On mélange les réponses
         random.shuffle(question[1])
