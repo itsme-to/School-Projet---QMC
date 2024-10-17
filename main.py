@@ -294,4 +294,5 @@ def create_progress_bar(progress, total, length):
 
     return bar
 
+# Initialisation de la console, lancement du jeu
 curses.wrapper(play)
