@@ -17,7 +17,7 @@ def play(stdscr):
     height, width = stdscr.getmaxyx()
 
     # On vérifie que la console est assez grande
-    if height < 30 or width < 80:
+    if height < 20 or width < 80:
         stdscr.addstr('La console est trop petite pour afficher le jeu correctement. Veuillez l\'agrandir.')
         stdscr.getch()
         return
@@ -45,13 +45,10 @@ def play(stdscr):
     questions_total = len(mcq)
 
     # On calcule les scores en fonction de la pondération
-
     # Sans pénalité
-    weighting_0 = correct_anwser
-    
+    weighting_0 = correct_anwser    
     # Pénalité en cas de mauvaises réponses
     weighting_1 = correct_anwser - (questions_total - correct_anwser)
-
     # Détection de robot
     weighting_2 = score_robot(correct_anwser, mcq)
     if robot:
@@ -66,7 +63,7 @@ def play(stdscr):
         stdscr.erase()
         play(stdscr)
     else:
-        stdscr.addstr('\n\n  Merci d\'avoir joué !\n\n')
+        stdscr.addstr('  Merci d\'avoir joué !')
     
     # On attend que l'utilisateur appuie sur une touche pour quitter
     stdscr.getch()
@@ -144,11 +141,9 @@ def start_mcq(questions, stdscr):
     # Calcul du nombre de bonnes réponses
     correct_answer = 0
 
-    for question in questions:
+    for index, question in enumerate(questions):
         # On mélange les réponses
         random.shuffle(question[1])
-
-        index = questions.index(question)
 
         # On crée une liste des réponses possibles
         answers = []
@@ -192,7 +187,9 @@ def show_score(weighting, weighting_0, weighting_1, weighting_2, lenght, stdscr)
     if weighting == 2 or weighting == 3:
         stdscr.addstr('  - Détection de robot [' + str(weighting_2) + '/' + str(lenght) + ']\n')
 
-    stdscr.addstr('\n\n')
+    stdscr.addstr('\n\n  Appuyer sur Entrer pour continuer')
+    stdscr.getch()
+
 
 def select(question, answers, stdscr):
     """
