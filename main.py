@@ -1,7 +1,7 @@
-import qcm
-import curses
-import os
-import random
+import qcm # Pour les questions
+import curses # Pour l'interface de la console et les touches
+import os # Pour lister les fichiers
+import random # Pour mélanger les questions
 
 def play(stdscr):
     """
