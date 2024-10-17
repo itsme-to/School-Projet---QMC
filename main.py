@@ -179,7 +179,10 @@ def show_score(weighting, weighting_0, weighting_1, weighting_2, lenght, interfa
     """
     # On affiche le score final
     interface.addstr('\n\n')
-    interface.addstr('  Score final', curses.A_BOLD)
+    interface.addstr('   ____ ____ ____ ____ ____ _________ ____ ____ ____ ____ ____ \n')
+    interface.addstr('  ||S |||C |||O |||R |||E |||       |||F |||I |||N |||A |||L ||\n')
+    interface.addstr('  ||__|||__|||__|||__|||__|||_______|||__|||__|||__|||__|||__||\n')
+    interface.addstr('  |/__\|/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|/__\|\n')
     interface.addstr('\n\n')
 
     if weighting == 0 or weighting == 3:
