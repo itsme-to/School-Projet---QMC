@@ -3,7 +3,7 @@ import curses # Pour l'interface de la console et les touches
 import os # Pour lister les fichiers
 import random # Pour mélanger les questions
 
-def play(stdscr):
+def play(interface):
     """
     Fonction principale du jeu.
     :pre: A besoin de l'interface de la console.
@@ -14,34 +14,34 @@ def play(stdscr):
     curses.curs_set(0)
 
     # On récupère la taille de la console
-    height, width = stdscr.getmaxyx()
+    height, width = interface.getmaxyx()
 
     # On vérifie que la console est assez grande
     if height < 20 or width < 80:
-        stdscr.addstr('La console est trop petite pour afficher le jeu correctement. Veuillez l\'agrandir.')
-        stdscr.getch()
+        interface.addstr('La console est trop petite pour afficher le jeu correctement. Veuillez l\'agrandir.')
+        interface.getch()
         return
     
     # On commence le jeu
-    start_game(stdscr)
+    start_game(interface)
 
     # On récupère les choix de questions et de pondération
-    mcq = select_mcq(stdscr)
-    stdscr.erase()
-    weighting = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', 'Détection Robot', 'Les 3 pondérations à la fois'], stdscr)
-    stdscr.erase()
+    mcq = select_mcq(interface)
+    interface.erase()
+    weighting = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Comment voulez-vous pondérer les questions ? [2/2]", ['Sans pénalité', 'Pélanité en cas de mauvais réponses', 'Détection Robot', 'Les 3 pondérations à la fois'], interface)
+    interface.erase()
 
     # On vérifie si l'utilisateur est un robot si la pondération est détection de robot ou les 3 pondérations
     robot = False
     if weighting >= 2:
-        robot = detect_robot(stdscr)
-        stdscr.erase()
+        robot = detect_robot(interface)
+        interface.erase()
 
     # On mélange les questions
     random.shuffle(mcq)
 
     # On lance le QCM, on récupère le nombre de bonnes réponses
-    correct_anwser = start_mcq(mcq, stdscr)
+    correct_anwser = start_mcq(mcq, interface)
     questions_total = len(mcq)
 
     # On calcule les scores en fonction de la pondération
@@ -55,44 +55,44 @@ def play(stdscr):
         weighting_2 = 0
     
     # On affiche le score final
-    show_score(weighting, weighting_0, weighting_1, weighting_2, questions_total, stdscr)
+    show_score(weighting, weighting_0, weighting_1, weighting_2, questions_total, interface)
 
     # On demande si l'utilisateur veut rejouer
-    play_again = select("Voulez-vous rejouer ?", ['Oui', 'Non'], stdscr)
+    play_again = select("Voulez-vous rejouer ?", ['Oui', 'Non'], interface)
     if play_again == 0:
-        stdscr.erase()
-        play(stdscr)
+        interface.erase()
+        play(interface)
     else:
-        stdscr.addstr('  Merci d\'avoir joué !')
+        interface.addstr('  Merci d\'avoir joué !')
     
     # On attend que l'utilisateur appuie sur une touche pour quitter
-    stdscr.getch()
+    interface.getch()
 
-def start_game(stdscr):
+def start_game(interface):
     """
     Affiche l'écran de démarrage du jeu.
     :pre: A besoin de l'interface de la console.
     """
 
     # On affiche le titre du jeu
-    stdscr.addstr('\n\n')
-    stdscr.addstr('   ____ ____ ____ ____ _________ ____ ____ ____ ____ ____ ____ _________ ____ \n')
-    stdscr.addstr('  ||Q |||U |||I |||Z |||       |||P |||R |||O |||J |||E |||T |||       |||2 ||\n')
-    stdscr.addstr('  ||__|||__|||__|||__|||_______|||__|||__|||__|||__|||__|||__|||_______|||__||\n')
-    stdscr.addstr('  |/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|/__\|/__\|/_______\|/__\|\n')
-    stdscr.addstr('\n\n')
-    stdscr.addstr('  Bienvenue dans le jeu de QCM !', curses.A_BOLD)
-    stdscr.addstr('\n\n')
-    stdscr.addstr('  Appuyer sur Entrer pour commencer')
+    interface.addstr('\n\n')
+    interface.addstr('   ____ ____ ____ ____ _________ ____ ____ ____ ____ ____ ____ _________ ____ \n')
+    interface.addstr('  ||Q |||U |||I |||Z |||       |||P |||R |||O |||J |||E |||T |||       |||2 ||\n')
+    interface.addstr('  ||__|||__|||__|||__|||_______|||__|||__|||__|||__|||__|||__|||_______|||__||\n')
+    interface.addstr('  |/__\|/__\|/__\|/__\|/_______\|/__\|/__\|/__\|/__\|/__\|/__\|/_______\|/__\|\n')
+    interface.addstr('\n\n')
+    interface.addstr('  Bienvenue dans le jeu de QCM !', curses.A_BOLD)
+    interface.addstr('\n\n')
+    interface.addstr('  Appuyer sur Entrer pour commencer')
 
     # On attend que l'utilisateur appuie sur Entrer pour continuer
-    while stdscr.getch() != ord('\n'):
+    while interface.getch() != ord('\n'):
         pass
     
     # On affiche le tutoriel
-    select(f"Tutoriel\n\n  Vous allez devoir répondre à une série de questions à choix multiples.\n  Pour répondre, utilisez les flèches directionnelles pour sélectionner la réponse souhaitée\n  et appuyez sur la touche Entrer pour valider.", ['Continuer', 'Toujours continuer'], stdscr)
+    select(f"Tutoriel\n\n  Vous allez devoir répondre à une série de questions à choix multiples.\n  Pour répondre, utilisez les flèches directionnelles pour sélectionner la réponse souhaitée\n  et appuyez sur la touche Entrer pour valider.", ['Continuer', 'Toujours continuer'], interface)
 
-def select_mcq(stdscr):
+def select_mcq(interface):
     """
     Permet de sélectionner un fichier de questions.
     :pre: A besoin de l'interface de la console.
@@ -103,13 +103,13 @@ def select_mcq(stdscr):
     question_files = os.listdir('QCM/')
 
     # On affiche les fichiers de questions et on demande à l'utilisateur d'en choisir un
-    answer = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Quel fichier de questions voulez-vous utiliser ? [1/2]", question_files, stdscr)
+    answer = select("Avant de commencer, voici quelques questions pour configurer la partie. \n\n  Quel fichier de questions voulez-vous utiliser ? [1/2]", question_files, interface)
     file = 'QCM/' + question_files[answer]
 
     # On charge les questions du fichier et on les retourne
     return qcm.build_questionnaire(file)
 
-def detect_robot(stdscr):
+def detect_robot(interface):
     """
     Permet de détecter si l'utilisateur est un robot.
     :pre: A besoin de l'interface de la console.
@@ -123,7 +123,7 @@ def detect_robot(stdscr):
     answers += answers_rest
 
     # On affiche la question et on demande à l'utilisateur de répondre
-    selected = select("Êtes-vous un robot ?", answers, stdscr)
+    selected = select("Êtes-vous un robot ?", answers, interface)
 
     # On retourne la réponse
     if answers[selected] == 'Oui':
@@ -131,7 +131,7 @@ def detect_robot(stdscr):
 
     return False
 
-def start_mcq(questions, stdscr):
+def start_mcq(questions, interface):
     """
     Permet de lancer une série de questions.
     :pre: A besoin de la liste des questions et de l'interface
@@ -151,47 +151,47 @@ def start_mcq(questions, stdscr):
             answers.append(answer[0])
 
         # On demande à l'utilisateur de sélectionner une réponse
-        answer = select(f"{create_progress_bar(index + 1, len(questions), 60)} [{str(index + 1)}/{str(len(questions))}]\n\n  {question[0]}", answers, stdscr)
+        answer = select(f"{create_progress_bar(index + 1, len(questions), 60)} [{str(index + 1)}/{str(len(questions))}]\n\n  {question[0]}", answers, interface)
 
         # On récupère la réponse sélectionnée et on vérifie si elle est correcte
         selected = question[1][answer]
         correct = selected[1]
         if correct:
-            stdscr.addstr('  Bonne réponse !', curses.A_BOLD)
+            interface.addstr('  Bonne réponse !', curses.A_BOLD)
             correct_answer += 1
         else:
-            stdscr.addstr('  Mauvaise réponse... ' + selected[2], curses.A_BOLD)
+            interface.addstr('  Mauvaise réponse... ' + selected[2], curses.A_BOLD)
         
         # On attend que l'utilisateur appuie sur une touche pour continuer
-        stdscr.getch()
+        interface.getch()
 
         # On efface l'écran
-        stdscr.erase()
+        interface.erase()
 
     return correct_answer
 
-def show_score(weighting, weighting_0, weighting_1, weighting_2, lenght, stdscr):
+def show_score(weighting, weighting_0, weighting_1, weighting_2, lenght, interface):
     """
     Affiche le score final.
     :pre: A besoin du mode de pondération,du nombre de bonnes réponses pour chaque pondération et de l'interface.
     :post: Affiche le score final. 
     """
     # On affiche le score final
-    stdscr.addstr('\n\n')
-    stdscr.addstr('  Score final\n\n', curses.A_BOLD)
+    interface.addstr('\n\n')
+    interface.addstr('  Score final\n\n', curses.A_BOLD)
 
     if weighting == 0 or weighting == 3:
-        stdscr.addstr('  - Sans pénalité [' + str(weighting_0) + '/' + str(lenght) + ']\n')
+        interface.addstr('  - Sans pénalité [' + str(weighting_0) + '/' + str(lenght) + ']\n')
     if weighting == 1 or weighting == 3:
-        stdscr.addstr('  - Pénalité en cas de mauvaises réponses [' + str(weighting_1) + '/' + str(lenght) + ']\n')
+        interface.addstr('  - Pénalité en cas de mauvaises réponses [' + str(weighting_1) + '/' + str(lenght) + ']\n')
     if weighting == 2 or weighting == 3:
-        stdscr.addstr('  - Détection de robot [' + str(weighting_2) + '/' + str(lenght) + ']\n')
+        interface.addstr('  - Détection de robot [' + str(weighting_2) + '/' + str(lenght) + ']\n')
 
-    stdscr.addstr('\n\n  Appuyer sur Entrer pour continuer')
-    stdscr.getch()
+    interface.addstr('\n\n  Appuyer sur Entrer pour continuer')
+    interface.getch()
 
 
-def select(question, answers, stdscr):
+def select(question, answers, interface):
     """
     Permet de sélectionner une réponse parmi plusieurs.
     :pre: A besoin du titre de la question, des réponses possibles et de l'interface
@@ -216,12 +216,12 @@ def select(question, answers, stdscr):
     while key != ord('\n'):
 
         # On efface l'écran
-        stdscr.erase()
+        interface.erase()
 
         # On affiche la question
-        stdscr.addstr('\n\n')
-        stdscr.addstr("  " + question, curses.A_BOLD)
-        stdscr.addstr('\n\n')
+        interface.addstr('\n\n')
+        interface.addstr("  " + question, curses.A_BOLD)
+        interface.addstr('\n\n')
         
         # On affiche les réponses, en mettant en surbrillance celle sélectionnée
         for i in range(len(answers)):
@@ -230,13 +230,13 @@ def select(question, answers, stdscr):
             else:
                 select_style = style[0]
             
-            stdscr.addstr("   - ")
-            stdscr.addstr(answers[i] + '\n', select_style)
+            interface.addstr("   - ")
+            interface.addstr(answers[i] + '\n', select_style)
         
-        stdscr.addstr('\n\n')
+        interface.addstr('\n\n')
 
         # On récupère la touche appuyée
-        key = stdscr.getch()
+        key = interface.getch()
 
         # On change la réponse sélectionnée en fonction de la touche appuyée, en vérifiant qu'elle est dans les limites
         if key == curses.KEY_DOWN and selected < len(answers) - 1:
