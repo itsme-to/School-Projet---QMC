@@ -1,0 +1,53 @@
+Q|Dans quel film retrouve-t-on le personnage de Jack Dawson ?
+A|Titanic|V
+A|Avatar|X|Jack Dawson est interprété par Leonardo DiCaprio dans Titanic, pas dans Avatar.
+A|Inception|X
+A|Le Loup de Wall Street|X
+
+Q|Qui a réalisé la trilogie Le Seigneur des Anneaux ?
+A|Peter Jackson|V
+A|Steven Spielberg|X
+A|George Lucas|X
+A|James Cameron|X
+
+Q|Quel acteur incarne Iron Man dans l’univers cinématographique Marvel ?
+A|Robert Downey Jr.|V
+A|Chris Evans|X
+A|Chris Hemsworth|X
+A|Mark Ruffalo|X
+
+Q|Quelle série met en scène un groupe d’amis vivant à New York et fréquentant le Central Perk ?
+A|Friends|V
+A|How I Met Your Mother|X|Bien que How I Met Your Mother se passe aussi à New York, ce n’est pas la série avec le Central Perk.
+A|The Big Bang Theory|X
+A|Seinfeld|X
+
+Q|Dans quel film Harry Potter découvre-t-il qu’il est un sorcier ?
+A|Harry Potter à l’école des sorciers|V
+A|Harry Potter et la Chambre des Secrets|X
+A|Harry Potter et le Prisonnier d’Azkaban|X
+A|Harry Potter et la Coupe de Feu|X
+
+Q|Quel est le nom du vaisseau spatial dans Star Wars piloté par Han Solo ?
+A|Le Faucon Millenium|V
+A|X-Wing|X|Le X-Wing est piloté par Luke Skywalker, pas par Han Solo.
+A|Star Destroyer|X
+A|Tie Fighter|X
+
+Q|Qui a joué le rôle principal dans le film Forrest Gump ?
+A|Tom Hanks|V
+A|Brad Pitt|X
+A|Johnny Depp|X
+A|Leonardo DiCaprio|X
+
+Q|Dans quelle série Walter White fabrique-t-il de la méthamphétamine ?
+A|Breaking Bad|V
+A|Narcos|X|Narcos est une série sur le trafic de drogue, mais elle ne concerne pas Walter White.
+A|The Wire|X
+A|Ozark|X
+
+Q|Quel film a remporté l’Oscar du meilleur film en 2020 ?
+A|Parasite|V
+A|1917|X
+A|Joker|X
+A|Once Upon a Time in Hollywood|X

@@ -1,0 +1,29 @@
+Q|Quel scientifique est à l’origine de la théorie de la relativité ?
+A|Albert Einstein|V
+A|Isaac Newton|X
+A|Galilée|X
+A|Nikola Tesla|X
+
+Q|Quel est l’élément chimique avec le symbole O ?
+A|Oxygène|V
+A|Or|X
+A|Osmium|X
+A|Oxium|X|L’oxium n’est pas un élément chimique.
+
+Q|Qui est considéré comme le père de l’informatique moderne ?
+A|Alan Turing|V
+A|Bill Gates|X|Bill Gates a cofondé Microsoft mais n’est pas considéré comme le père de l’informatique moderne.
+A|Steve Jobs|X
+A|Charles Babbage|X
+
+Q|Quel est le nom du premier satellite artificiel lancé dans l’espace ?
+A|Spoutnik 1|V
+A|Explorer 1|X
+A|Apollo 11|X|Apollo 11 est la mission qui a permis à l’Homme de marcher sur la Lune, pas un satellite.
+A|Voyager 1|X
+
+Q|Quelle est la loi qui stipule que la puissance de calcul des processeurs double environ tous les deux ans ?
+A|Loi de Moore|V
+A|Loi d’Ohm|X
+A|Loi de Coulomb|X
+A|Loi de Newton|X

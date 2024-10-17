@@ -1,0 +1,95 @@
+Q|Quel est le plus grand océan du monde ?
+A|Océan Atlantique|X
+A|Océan Pacifique|V
+A|Océan Indien|X
+A|Océan Arctique|X
+
+Q|Quel est le symbole chimique de l’or ?
+A|Au|V
+A|Ag|X
+A|Fe|X
+A|Hg|X
+
+Q|Quelle est la capitale de l’Australie ?
+A|Sydney|X
+A|Canberra|V
+A|Melbourne|X
+A|Brisbane|X
+
+Q|Qui a peint la Joconde ?
+A|Vincent van Gogh|X
+A|Leonardo da Vinci|V
+A|Pablo Picasso|X
+A|Claude Monet|X
+
+Q|Quel pays a remporté la Coupe du monde de football en 2018 ?
+A|France|V
+A|Croatie|X
+A|Brésil|X
+A|Allemagne|X
+
+Q|Quel est l’auteur du livre “1984” ?
+A|George Orwell|V
+A|Aldous Huxley|X
+A|Ray Bradbury|X
+A|H.G. Wells|X
+
+Q|Quel est le plus grand désert chaud de la planète ?
+A|Désert de Gobi|X
+A|Désert du Sahara|V
+A|Désert d’Atacama|X
+A|Désert de Kalahari|X
+
+Q|Combien y a-t-il de continents dans le monde ?
+A|5|X
+A|6|X
+A|7|V
+A|8|X
+
+Q|Quel pays est surnommé “le pays du Soleil-Levant” ?
+A|Chine|X
+A|Japon|V
+A|Corée du Sud|X
+A|Thaïlande|X
+
+Q|Quelle est la monnaie officielle du Royaume-Uni ?
+A|Euro|X
+A|Livre sterling|V
+A|Dollar|X
+A|Franc suisse|X
+
+Q|Quel est l’élément le plus abondant dans l’atmosphère terrestre ?
+A|Oxygène|X
+A|Azote|V
+A|Hydrogène|X
+A|Dioxyde de carbone|X
+
+Q|Qui a découvert l’Amérique en 1492 ?
+A|Vasco de Gama|X
+A|Christophe Colomb|V
+A|Ferdinand Magellan|X
+A|Marco Polo|X
+
+Q|Quelle est la planète la plus proche du Soleil ?
+A|Vénus|X
+A|Mercure|V
+A|Mars|X
+A|Jupiter|X
+
+Q|Quelle ville est surnommée “La Ville Lumière” ?
+A|New York|X
+A|Paris|V
+A|Londres|X
+A|Rome|X
+
+Q|Qui a écrit “Les Misérables” ?
+A|Alexandre Dumas|X
+A|Victor Hugo|V
+A|Émile Zola|X
+A|Gustave Flaubert|X
+
+Q|Quel est le plus long fleuve du monde ?
+A|Amazon|V
+A|Nil|X
+A|Yangzi Jiang|X
+A|Mississippi|X

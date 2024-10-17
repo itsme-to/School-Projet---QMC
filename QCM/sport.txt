@@ -1,0 +1,46 @@
+Q|Quelle équipe de football a remporté la Coupe du monde en 2014 ?
+A|Allemagne|V
+A|Brésil|X
+A|Argentine|X
+A|Espagne|X
+
+Q|Dans quel sport s’illustre Serena Williams ?
+A|Tennis|V
+A|Basketball|X
+A|Golf|X
+A|Natation|X
+
+Q|Combien de joueurs y a-t-il sur le terrain dans une équipe de football (soccer) ?
+A|11|V
+A|9|X
+A|10|X
+A|12|X
+
+Q|Qui détient le record du monde du 100 mètres en athlétisme ?
+A|Usain Bolt|V
+A|Carl Lewis|X
+A|Tyson Gay|X
+A|Yohan Blake|X
+
+Q|Quelle équipe de NBA a remporté le plus de titres de champions ?
+A|Boston Celtics|V
+A|Los Angeles Lakers|X|Les Lakers sont proches mais n’ont pas remporté plus de titres que les Celtics.
+A|Chicago Bulls|X
+A|Miami Heat|X
+
+Q|Dans quel pays ont eu lieu les Jeux Olympiques de 2016 ?
+A|Brésil|V
+A|Grèce|X
+A|Chine|X
+A|Royaume-Uni|X
+
+Q|Quel cycliste a remporté le plus grand nombre de Tours de France ?
+A|Lance Armstrong|X|Les victoires d’Armstrong ont été annulées suite à des scandales de dopage.
+A|Eddy Merckx|V
+A|Chris Froome|X
+A|Bernard Hinault|X
+
+Q|Dans quel sport utilise-t-on une batte pour frapper une balle ?
+A|Baseball|V
+A|Football américain|X
+A|Rugby|X

@@ -1,0 +1,47 @@
+Q|Quel groupe a sorti l’album The Dark Side of the Moon ?
+A|Pink Floyd|V
+A|The Beatles|X
+A|Led Zeppelin|X
+A|The Rolling Stones|X
+
+Q|Qui est surnommée la “Reine de la Pop” ?
+A|Madonna|V
+A|Lady Gaga|X
+A|Beyoncé|X
+A|Britney Spears|X
+
+Q|Quel artiste a chanté Thriller, l’album le plus vendu de tous les temps ?
+A|Michael Jackson|V
+A|Prince|X
+A|Elvis Presley|X
+A|Stevie Wonder|X
+
+Q|Quel groupe britannique a interprété la chanson Bohemian Rhapsody ?
+A|Queen|V
+A|The Beatles|X|Bien que très populaire, The Beatles n’ont pas interprété Bohemian Rhapsody.
+A|The Who|X
+A|Oasis|X
+
+Q|Quel chanteur est connu pour ses tubes Shape of You et Perfect ?
+A|Ed Sheeran|V
+A|Sam Smith|X
+A|Shawn Mendes|X
+A|Justin Bieber|X
+
+Q|Qui est l’auteur-compositeur du célèbre morceau Imagine ?
+A|John Lennon|V
+A|Paul McCartney|X|Bien qu’ils aient souvent collaboré, Imagine est l’œuvre solo de John Lennon.
+A|Elton John|X
+A|David Bowie|X
+
+Q|Quel groupe de rock américain a chanté Smells Like Teen Spirit ?
+A|Nirvana|V
+A|Green Day|X
+A|Red Hot Chili Peppers|X
+A|Foo Fighters|X
+
+Q|Quel duo électronique français est connu pour les titres Get Lucky et Around the World ?
+A|Daft Punk|V
+A|Justice|X
+A|Air|X
+A|Phoenix|X
